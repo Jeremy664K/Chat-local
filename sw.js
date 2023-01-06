@@ -1,0 +1,1 @@
+self.addEventListener('message', e => e.source.postMessage(e.data));

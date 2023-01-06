@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat local - Habla en tu servidor</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" defer></script>
+    <script src="/js/assets/user.js" type="module" defer></script>
+    <script src="/js/nav.js" type="module" defer></script>
+    <script src="/js/chat.js" type="module" defer></script>
+    <script src="/js/modal.js" type="module" defer></script>
+    <meta name="author" content="Jeremy Díaz">
+    <meta name="description" content="Un chat donde puedes hablar desde el mismo servidor!.">
+    <meta name="keywords" content="Chat local, chat, chat interactivo, mensajes, habla"> 
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <div class="modal">
+        <h4 class="modal_title">Antes de entrar</h4>
+        <form class="modal_form">
+            <div class="row">
+                <label>
+                    * ¿Cuál es tu nombre 🤔?
+                    <input required maxlength="30" class="modal_name" name="modal_name" type="text" placeholder="Tu nombre...">  
+                </label>
+            </div>
+
+            <div class="row">
+                <label>
+                    ¿Tienes una foto de perfil 🖼️?
+                    <input class="modal_image" name="modal_image" type="file" accept="image/png, image/jpeg, image/ico">
+                </label>
+            </div>
+
+            <div class="row">
+                o
+                <div class="modal_drop_image"></div>
+            </div>
+
+            <div class="row">
+                <input class="modal_send" type="submit">
+            </div>
+        </form>
+    </div>
+    
+    <div class="body_center modal_open">
+        <header class="header">
+            <section class="header_title">
+                <a href="/" title="Chat local logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="24" height="24" viewBox="0 0 344.000000 344.000000" preserveAspectRatio="xMidYMid meet">
+                        <g transform="translate(0.000000,344.000000) scale(0.100000,-0.100000)" fill="#09f" stroke="none">
+                        <path d="M487 2996 c-90 -33 -162 -108 -188 -196 -7 -23 -9 -354 -7 -960 3 -1036 -3 -949 77 -1033 71 -76 93 -82 304 -85 l187 -4 0 -286 0 -287 288 287 287 288 760 2 c758 3 760 3 800 25 47 25 105 84 131 133 18 33 19 80 22 964 3 1033 6 983 -64 1065 -20 23 -59 54 -88 69 l-51 27 -1210 2 c-1000 2 -1217 0 -1248 -11z m2381 -1133 l-3 -858 -1145 0 -1145 0 -3 858 -2 857 1150 0 1150 0 -2 -857z"/>
+                        </g>
+                    </svg>
+                    <h1>Cha<span class="color_terciary">t</span> loca<span class="color_terciary">l</span></h1>
+                </a>
+            </section>
+            <section>
+                <nav>
+                    <ul class="header_options">
+                        <li>
+                            <form role="search" class="options_search-content">
+                                <input name="options_search" class="options_search" type="search" placeholder="Buscar mensajes...">
+                            </form>
+                            <p class="status">Buscando en el chat...</p>
+                        </li>
+                        <li>
+                            <button title="Notificaciones" class="options_notification icon">
+                                <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M20 17h2v2H2v-2h2v-7a8 8 0 1 1 16 0v7zm-2 0v-7a6 6 0 1 0-12 0v7h12zm-9 4h6v2H9v-2z" fill="#fff"></path>
+                                </svg>
+                            </button>
+                        </li>
+                        <li>
+                            <button title="Perfil" class="options_perfil icon">
+                                <img id="perfil" loading="lazy" decoding="async">
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+        </header>
+    
+        <div class="body_column-aside">
+            <aside class="aside">
+                <section class="aside_intro">
+                    <button class="main_change_screen icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fafafa" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                        </svg>
+                    </button>
+                    
+                    <h2>Chat<span class="color_terciary">s</span></h2>
+                    <button title="Borra todos los chats" class="aside_delete-chat">Reiniciar chat</button>
+                </section>
+                <section class="aside_panel">
+                    <ul class="aside_panel_messages"></ul>
+                </section>
+            </aside>
+        
+            <main class="main">
+                <section class="main_title">
+                    <h2 id="title_name">Local</span></h2>
+                    <button class="main_change_screen icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fafafa" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                        </svg>
+                    </button>
+                </section>
+                <section class="main_content">
+                    <ul class="main_messages"></ul>
+                </section>
+                <section class="main_footer">
+                    <form class="form_send">
+                        <button type="button" title="Emojis" class="form_emojis icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M9.153 11.603c.795 0 1.439-.879 1.439-1.962s-.644-1.962-1.439-1.962-1.439.879-1.439 1.962.644 1.962 1.439 1.962zm-3.204 1.362c-.026-.307-.131 5.218 6.063 5.551 6.066-.25 6.066-5.551 6.066-5.551-6.078 1.416-12.129 0-12.129 0zm11.363 1.108s-.669 1.959-5.051 1.959c-3.505 0-5.388-1.164-5.607-1.959 0 0 5.912 1.055 10.658 0zM11.804 1.011C5.609 1.011.978 6.033.978 12.228s4.826 10.761 11.021 10.761S23.02 18.423 23.02 12.228c.001-6.195-5.021-11.217-11.216-11.217zM12 21.354c-5.273 0-9.381-3.886-9.381-9.159s3.942-9.548 9.215-9.548 9.548 4.275 9.548 9.548c-.001 5.272-4.109 9.159-9.382 9.159zm3.108-9.751c.795 0 1.439-.879 1.439-1.962s-.644-1.962-1.439-1.962-1.439.879-1.439 1.962.644 1.962 1.439 1.962z"></path></svg>
+                        </button>
+                        <emoji-picker class="modal_open" id="emojis"></emoji-picker>
+                        <input name="send_message" class="form_write_message" type="text" placeholder="Escribe un mensaje...">
+                        <input type="submit" title="Enviar mensaje" class="form_send_message" type="submit">
+                    </form>
+                </section>
+            </main>    
+        </div>
+    </div>
+    
+</body>
+</html>
